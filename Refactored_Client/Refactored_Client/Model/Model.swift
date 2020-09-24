@@ -9,5 +9,5 @@
 import Foundation
 
 class Model {
-    let url = URL(string: "http://localhost:8080")
+    let url = URL(string: "http://localhost:8080")!
 }

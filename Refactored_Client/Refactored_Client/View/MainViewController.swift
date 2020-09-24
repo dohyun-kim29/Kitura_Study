@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ManiViewController: UIViewController {
+class MainViewController: UIViewController {
     
     @IBOutlet weak var lblResult: UILabel!
     

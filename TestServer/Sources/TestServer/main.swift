@@ -9,7 +9,7 @@ let router = Router()
 router.get("/") {
     
     request, response, next in
-    response.send("Hello, Kitura!")
+    response.send(["hello":"Hello, Kitura!"])
     next()
 }
 

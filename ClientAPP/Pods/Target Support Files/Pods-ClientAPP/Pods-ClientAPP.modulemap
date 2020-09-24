@@ -1,0 +1,6 @@
+framework module Pods_ClientAPP {
+  umbrella header "Pods-ClientAPP-umbrella.h"
+
+  export *
+  module * { export * }
+}

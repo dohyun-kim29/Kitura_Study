@@ -8,7 +8,7 @@ let package = Package(
     dependencies: [
         
         .package(url: "https://github.com/IBM-Swift/Kitura.git", from: "2.9.1"),
-        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git", from: "1.9.0")
+        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git", from: "1.7.0")
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),

@@ -15,7 +15,7 @@ import RxSwift
 class ViewController: UIViewController {
     
     let url = URL(string: "http://localhost:8080")!
-
+    
     
     @IBOutlet weak var txtResult: UILabel!
     
@@ -23,22 +23,24 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
     @IBAction func request(_ sender: Any) {
         request()
     }
-   
     
-
+    
+    
     
     func request() {
-
+        
+        
+        
         var request = URLRequest(url: url)
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         request.httpMethod = "GET"
-
+        
         URLSession.shared.dataTask(with: request){
             [weak self] data, res, err in
             guard self != nil else { return }
@@ -64,10 +66,10 @@ class ViewController: UIViewController {
                 }
                 
                 
-
-               
-
-
+                
+                
+                
+                
             default:
                 print(err?.localizedDescription as Any)
             }
@@ -77,5 +79,6 @@ class ViewController: UIViewController {
         }.resume()
     }
 }
+
 
 

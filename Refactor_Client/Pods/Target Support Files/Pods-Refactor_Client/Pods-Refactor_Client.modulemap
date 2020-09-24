@@ -1,0 +1,6 @@
+framework module Pods_Refactor_Client {
+  umbrella header "Pods-Refactor_Client-umbrella.h"
+
+  export *
+  module * { export * }
+}

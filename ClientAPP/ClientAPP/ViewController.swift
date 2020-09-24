@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import Alamofire
+import RxCocoa
+import RxSwift
+
 
 class ViewController: UIViewController {
+    
+    let url = URL(string: "https://localhost:8080/")!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,9 +22,21 @@ class ViewController: UIViewController {
     }
 
     @IBAction func request(_ sender: Any) {
-        
+        request()
+    }
+   
+    
+    func request() {
+        Alamofire.request(url, method: .get, parameters: ["Content-Type":"application/json"])
+        .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("ERROR \(String(describing:response.result.error))")
+                    return
+                }
+        }
         
     }
-    
 }
+
 

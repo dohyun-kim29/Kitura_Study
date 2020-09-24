@@ -9,6 +9,5 @@ target 'Refactored_Client' do
 pod 'RxSwift'
 pod 'RxCocoa'
 pod 'Alamofire'
-pod 'SwiftLint'
 
 end

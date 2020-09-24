@@ -50,3 +50,4 @@ extension SharedSequenceConvertibleType where SharingStrategy == DriverSharingSt
         return self.asSharedSequence()
     }
 }
+

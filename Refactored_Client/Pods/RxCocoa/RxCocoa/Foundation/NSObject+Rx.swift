@@ -45,6 +45,7 @@ to replace dealloc method. In case that isn't the case, it should be ok.
 */
 extension Reactive where Base: NSObject {
 
+
     /**
      Observes values on `keyPath` starting from `self` with `options` and retains `self` if `retainSelf` is set.
 
@@ -97,7 +98,7 @@ extension Reactive where Base: NSObject {
 
 // Dealloc
 extension Reactive where Base: AnyObject {
-
+    
     /**
     Observable sequence of object deallocated events.
     
@@ -142,7 +143,8 @@ extension Reactive where Base: AnyObject {
             do {
                 let proxy: MessageSentProxy = try self.registerMessageInterceptor(selector)
                 return proxy.messageSent.asObservable()
-            } catch let e {
+            }
+            catch let e {
                 return Observable.error(e)
             }
         }
@@ -167,10 +169,12 @@ extension Reactive where Base: AnyObject {
                 return self.deallocated.map { _ in [] }
             }
 
+
             do {
                 let proxy: MessageSentProxy = try self.registerMessageInterceptor(selector)
                 return proxy.methodInvoked.asObservable()
-            } catch let e {
+            }
+            catch let e {
                 return Observable.error(e)
             }
         }
@@ -191,7 +195,8 @@ extension Reactive where Base: AnyObject {
             do {
                 let proxy: DeallocatingProxy = try self.registerMessageInterceptor(deallocSelector)
                 return proxy.messageSent.asObservable()
-            } catch let e {
+            }
+            catch let e {
                 return Observable.error(e)
             }
         }
@@ -204,7 +209,8 @@ extension Reactive where Base: AnyObject {
         let subject: T
         if let existingSubject = objc_getAssociatedObject(self.base, selectorReference) as? T {
             subject = existingSubject
-        } else {
+        }
+        else {
             subject = T()
             objc_setAssociatedObject(
                 self.base,
@@ -245,7 +251,9 @@ extension Reactive where Base: AnyObject {
         var targetImplementation: IMP { get set }
     }
 
-    fileprivate final class DeallocatingProxy: MessageInterceptorSubject, RXDeallocatingObserver {
+    fileprivate final class DeallocatingProxy
+        : MessageInterceptorSubject
+        , RXDeallocatingObserver {
         typealias Element = ()
 
         let messageSent = ReplaySubject<()>.create(bufferSize: 1)
@@ -268,7 +276,9 @@ extension Reactive where Base: AnyObject {
         }
     }
 
-    fileprivate final class MessageSentProxy: MessageInterceptorSubject, RXMessageSentObserver {
+    fileprivate final class MessageSentProxy
+        : MessageInterceptorSubject
+        , RXMessageSentObserver {
         typealias Element = [AnyObject]
 
         let messageSent = PublishSubject<[Any]>()
@@ -299,8 +309,9 @@ extension Reactive where Base: AnyObject {
 
 #endif
 
+
 fileprivate final class DeallocObservable {
-    let _subject = ReplaySubject<Void>.create(bufferSize: 1)
+    let _subject = ReplaySubject<Void>.create(bufferSize:1)
 
     init() {
     }
@@ -322,7 +333,9 @@ private protocol KVOObservableProtocol {
     var options: KeyValueObservingOptions { get }
 }
 
-fileprivate final class KVOObserver: _RXKVOObserver, Disposable {
+fileprivate final class KVOObserver
+    : _RXKVOObserver
+    , Disposable {
     typealias Callback = (Any?) -> Void
 
     var retainSelf: KVOObserver?
@@ -348,7 +361,9 @@ fileprivate final class KVOObserver: _RXKVOObserver, Disposable {
     }
 }
 
-fileprivate final class KVOObservable<Element>: ObservableType, KVOObservableProtocol {
+fileprivate final class KVOObservable<Element>
+    : ObservableType
+    , KVOObservableProtocol {
     typealias Element = Element?
 
     unowned var target: AnyObject
@@ -391,7 +406,7 @@ fileprivate extension KeyValueObservingOptions {
         if self.contains(.initial) {
             result |= NSKeyValueObservingOptions.initial.rawValue
         }
-
+        
         return NSKeyValueObservingOptions(rawValue: result)
     }
 }
@@ -408,7 +423,8 @@ fileprivate extension KeyValueObservingOptions {
 
         if !options.isDisjoint(with: .initial) {
             return observable
-        } else {
+        }
+        else {
             return observable
                 .skip(1)
         }
@@ -480,11 +496,12 @@ fileprivate extension KeyValueObservingOptions {
                 let nextElementsObservable = keyPathSections.count == 1
                     ? Observable.just(nextTarget)
                     : observeWeaklyKeyPathFor(nextObject!, keyPathSections: remainingPaths, options: options)
-
+                
                 if isWeak {
                     return nextElementsObservable
                         .finishWithNilWhenDealloc(nextObject!)
-                } else {
+                }
+                else {
                     return nextElementsObservable
                 }
         }
@@ -515,11 +532,11 @@ extension Reactive where Base: AnyObject {
         if let value = objc_getAssociatedObject(self.base, key) {
             return value as! T
         }
-
+        
         let observable = createCachedObservable()
-
+        
         objc_setAssociatedObject(self.base, key, observable, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-
+        
         return observable
     }
 }

@@ -92,6 +92,7 @@ extension Reactive where Base: UITableView {
         }
     }
 
+
     /**
     Binds sequences of elements to table view rows using a custom reactive data used to perform the transformation.
     This method will retain the data source for as long as the subscription isn't disposed (result `Disposable` 
@@ -139,7 +140,7 @@ extension Reactive where Base: UITableView {
     public var dataSource: DelegateProxy<UITableView, UITableViewDataSource> {
         return RxTableViewDataSourceProxy.proxy(for: base)
     }
-
+   
     /**
     Installs data source as forwarding delegate on `rx.dataSource`.
     Data source won't be retained.
@@ -153,9 +154,9 @@ extension Reactive where Base: UITableView {
         -> Disposable {
         return RxTableViewDataSourceProxy.installForwardDelegate(dataSource, retainDelegate: false, onProxyForObject: self.base)
     }
-
+    
     // events
-
+    
     /**
     Reactive wrapper for `delegate` message `tableView:didSelectRowAtIndexPath:`.
     */
@@ -188,10 +189,10 @@ extension Reactive where Base: UITableView {
             .map { a in
                 return try castOrThrow(IndexPath.self, a[1])
             }
-
+        
         return ControlEvent(events: source)
     }
-
+    
     /**
     Reactive wrapper for `delegate` message `tableView:commitEditingStyle:forRowAtIndexPath:`.
     */
@@ -203,10 +204,10 @@ extension Reactive where Base: UITableView {
             .map { a in
                 return (try castOrThrow(IndexPath.self, a[2]))
         }
-
+        
         return ControlEvent(events: source)
     }
-
+    
     /**
     Reactive wrapper for `delegate` message `tableView:commitEditingStyle:forRowAtIndexPath:`.
     */
@@ -218,10 +219,10 @@ extension Reactive where Base: UITableView {
             .map { a in
                 return try castOrThrow(IndexPath.self, a[2])
             }
-
+        
         return ControlEvent(events: source)
     }
-
+    
     /**
     Reactive wrapper for `delegate` message `tableView:moveRowAtIndexPath:toIndexPath:`.
     */
@@ -230,7 +231,7 @@ extension Reactive where Base: UITableView {
             .map { a in
                 return (try castOrThrow(IndexPath.self, a[1]), try castOrThrow(IndexPath.self, a[2]))
             }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -277,7 +278,7 @@ extension Reactive where Base: UITableView {
 
             return Observable.just(try view.rx.model(at: indexPath))
         }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -303,7 +304,7 @@ extension Reactive where Base: UITableView {
 
         return ControlEvent(events: source)
     }
-
+    
     /**
      Reactive wrapper for `delegate` message `tableView:commitEditingStyle:forRowAtIndexPath:`.
      
@@ -320,10 +321,10 @@ extension Reactive where Base: UITableView {
             guard let view = view else {
                 return Observable.empty()
             }
-
+            
             return Observable.just(try view.rx.model(at: indexPath))
         }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -332,7 +333,7 @@ extension Reactive where Base: UITableView {
      */
     public func model<T>(at indexPath: IndexPath) throws -> T {
         let dataSource: SectionedViewDataSourceType = castOrFatalError(self.dataSource.forwardToDelegate(), message: "This method only works in case one of the `rx.items*` methods was used.")
-
+        
         let element = try dataSource.model(at: indexPath)
 
         return castOrFatalError(element)
@@ -383,21 +384,21 @@ extension Reactive where Base: UITableView {
 #endif
 
 #if os(tvOS)
-
+    
     extension Reactive where Base: UITableView {
-
+        
         /**
          Reactive wrapper for `delegate` message `tableView:didUpdateFocusInContext:withAnimationCoordinator:`.
          */
         public var didUpdateFocusInContextWithAnimationCoordinator: ControlEvent<(context: UITableViewFocusUpdateContext, animationCoordinator: UIFocusAnimationCoordinator)> {
-
+            
             let source = delegate.methodInvoked(#selector(UITableViewDelegate.tableView(_:didUpdateFocusIn:with:)))
                 .map { a -> (context: UITableViewFocusUpdateContext, animationCoordinator: UIFocusAnimationCoordinator) in
                     let context = try castOrThrow(UITableViewFocusUpdateContext.self, a[1])
                     let animationCoordinator = try castOrThrow(UIFocusAnimationCoordinator.self, a[2])
                     return (context: context, animationCoordinator: animationCoordinator)
             }
-
+            
             return ControlEvent(events: source)
         }
     }

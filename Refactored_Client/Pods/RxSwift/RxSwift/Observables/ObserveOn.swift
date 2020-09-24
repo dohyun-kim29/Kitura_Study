@@ -23,7 +23,8 @@ extension ObservableType {
         -> Observable<Element> {
             if let scheduler = scheduler as? SerialDispatchQueueScheduler {
                 return ObserveOnSerialDispatchQueue(source: self.asObservable(), scheduler: scheduler)
-            } else {
+            }
+            else {
                 return ObserveOn(source: self.asObservable(), scheduler: scheduler)
             }
     }
@@ -55,7 +56,7 @@ final private class ObserveOn<Element>: Producer<Element> {
 #endif
 }
 
-enum ObserveOnState: Int32 {
+enum ObserveOnState : Int32 {
     // pump is not running
     case stopped = 0
     // pump is running
@@ -63,7 +64,7 @@ enum ObserveOnState: Int32 {
 }
 
 final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer.Element> {
-    typealias Element = Observer.Element
+    typealias Element = Observer.Element 
 
     let _scheduler: ImmediateSchedulerType
 
@@ -105,7 +106,8 @@ final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer
         let (nextEvent, observer) = self._lock.calculateLocked { () -> (Event<Element>?, Observer) in
             if !self._queue.isEmpty {
                 return (self._queue.dequeue(), self._observer)
-            } else {
+            }
+            else {
                 self._state = .stopped
                 return (nil, self._observer)
             }
@@ -116,7 +118,8 @@ final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer
             if nextEvent.isStopEvent {
                 self.dispose()
             }
-        } else {
+        }
+        else {
             return
         }
 
@@ -131,7 +134,8 @@ final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer
         self._lock.lock(); defer { self._lock.unlock() } // {
             if !self._queue.isEmpty {
                 return true
-            } else {
+            }
+            else {
                 self._state = .stopped
                 return false
             }
@@ -147,7 +151,7 @@ final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer
 }
 
 #if TRACE_RESOURCES
-    private let _numberOfSerialDispatchQueueObservables = AtomicInt(0)
+    fileprivate let _numberOfSerialDispatchQueueObservables = AtomicInt(0)
     extension Resources {
         /**
          Counts number of `SerialDispatchQueueObservables`.

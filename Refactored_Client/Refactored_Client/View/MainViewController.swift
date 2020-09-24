@@ -7,12 +7,22 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ManiViewController: UIViewController {
+    
+    @IBOutlet weak var lblResult: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        
     }
+    
+    
     
 }

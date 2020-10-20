@@ -7,10 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-import RxCocoa
-import RxSwift
-
 
 class ViewController: UIViewController {
     
@@ -28,12 +24,7 @@ class ViewController: UIViewController {
         request()
     }
     
-    
-    
-    
     func request() {
-        
-        
         
         var request = URLRequest(url: url)
         
@@ -53,29 +44,17 @@ class ViewController: UIViewController {
                 
                 let jsonSerialization = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
                 print(jsonSerialization)
-                
                 result = jsonSerialization["hello"]!
-                
-                
                 print(result)
-                
-                
                 
                 DispatchQueue.main.async {
                     self?.txtResult.text! = result as! String
                 }
                 
-                
-                
-                
-                
-                
             default:
                 print(err?.localizedDescription as Any)
             }
-            
-            
-            
+    
         }.resume()
     }
 }

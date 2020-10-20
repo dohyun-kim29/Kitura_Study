@@ -8,7 +8,8 @@ let package = Package(
     dependencies: [
         
         .package(url: "https://github.com/IBM-Swift/Kitura.git", from: "2.9.1"),
-        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git", from: "1.7.0")
+        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git", from: "1.7.0"),
+        .package(url: "https://github.com/IBM-Swift/FileKit.git", from: "0.0.2")
         
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -18,7 +19,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "TestServer",
-            dependencies: ["Kitura", "HeliumLogger"]),
+            dependencies: ["Kitura", "HeliumLogger", "FileKit"]),
         .testTarget(
             name: "TestServerTests",
             dependencies: ["TestServer"]),

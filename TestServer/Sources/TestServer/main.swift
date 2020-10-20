@@ -8,7 +8,7 @@ HeliumLogger.use()
 
 let router = Router()
 
-let fileUrl = URL(fileURLWithPath: #file)
+let fileUrl = URL(fileURLWithPath: "/Users/dohyunkim/Desktop/Kitura_Study/Readme.md")
 
 router.get("/") {
     

@@ -13,7 +13,7 @@ import Alamofire
 
 class ViewController: UIViewController {
     
-    let url = URL(string: "http://localhost:8080")!
+    let url = URL(string: "http://localhost:8080/file/")!
     var result = ""
     let disposeBag = DisposeBag()
     
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
                 let jsonSerialization = try! JSONSerialization.jsonObject(with: response.data!, options: []) as! [String:Any]
                 print(jsonSerialization)
                 
-                self.result = jsonSerialization["hello"] as! String
+                self.result = jsonSerialization["file"] as! String
                 
         }
         
